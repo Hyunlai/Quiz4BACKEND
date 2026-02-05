@@ -1,13 +1,11 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from . import views
-
-router = DefaultRouter()
-router.register(r'', views.TaskViewSet, basename='task')
+from django.views.decorators.csrf import csrf_exempt
+from .views import TaskCreateView
+from .views import TaskListView, TaskDetailView
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('_list/', views.TaskListView, name='task-list'),
-    path('<int:pk>/', views.TaskDetailView, name='task-detail'),
-    path('create/', views.TaskCreateView, name='task-create'),
+    path('api/tasks/', TaskListView, name='task-list'),
+    path('api/tasks/<int:pk>/', TaskDetailView, name='task-detail'),
+    path('api/tasks/create/', TaskCreateView, name='task-create'),
 ]

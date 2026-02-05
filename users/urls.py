@@ -1,13 +1,11 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from . import views
-
-router = DefaultRouter()
-router.register(r'', views.CustomUserViewSet, basename='user')
+from django.views.decorators.csrf import csrf_exempt
+from .views import UserListView, UserDetailView, UserCreateView
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('_list/', views.UserListView, name='user-list'),
-    path('current/', views.CurrentUserView, name='current-user'),
-    path('routes/', views.getRoutes, name='routes'),
+    path('api/users/', UserListView, name='user-list'),
+    path('api/users/<int:pk>/', UserDetailView, name='user-detail'),
+    path('api/users/create/', UserCreateView, name='user-create'),
+
 ]

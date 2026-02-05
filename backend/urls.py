@@ -20,16 +20,12 @@ from django.urls import path, include
 
 def getRoutes(request):
     routes = [
-        {'GET': '/api/routes/', 'description': 'List all available routes'},
+        {'GET': '/api/routes/'},
         {'GET': '/api/projects/', 'description': 'List all projects'},
         {'GET': '/api/projects/<id>/', 'description': 'Get project details'},
-        {'POST': '/api/projects/', 'description': 'Create a new project'},
+        {'POST': '/api/v1/projects/<id>/task/create/', 'description': 'Create a new task'},
         {'GET': '/api/tasks/', 'description': 'List all tasks'},
         {'GET': '/api/tasks/<id>/', 'description': 'Get task details'},
-        {'POST': '/api/tasks/', 'description': 'Create a new task'},
-        {'GET': '/api/users/', 'description': 'List all users'},
-        {'GET': '/api/users/<id>/', 'description': 'Get user details'},
-        {'POST': '/api/users/', 'description': 'Create a new user'},
     ]
     return JsonResponse(routes, safe=False)
 
