@@ -4,8 +4,6 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 import json
-
-from backend import project
 from .models import Project
 from tasks.models import Task
 from users.views import admin_required, authenticated_required
@@ -15,7 +13,6 @@ from users.views import admin_required, authenticated_required
 @require_http_methods(["GET"])
 @authenticated_required
 def ProjectListView(request):
-
     user_role = request.session.get('user_role') or getattr(request.user, 'role', None)
     
     if user_role == 'Admin':

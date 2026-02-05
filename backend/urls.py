@@ -34,4 +34,5 @@ urlpatterns = [
     path('api/routes/', getRoutes, name='routes'),
     path('api/projects/', include('project.urls')),
     path('api/tasks/', include('tasks.urls')),
+    path('api-auth/', include('rest_framework.urls'))
 ]

@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'project.apps.ProjectConfig',
     'tasks.apps.TasksConfig',
     'users.apps.UsersConfig',
+    'rest_framework',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
