@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--%#px2%dz6+r@#8wnga9d2h0tskm@ae(2l7!i15g8g2tsc+xr@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'ClickUp.apps.ClickupConfig',
     'project.apps.ProjectConfig',
     'tasks.apps.TasksConfig',
@@ -50,9 +51,20 @@ REST_FRAMEWORK = {
     ]
 }
 
+# CORS settings for localhost development
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

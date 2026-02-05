@@ -46,6 +46,7 @@ def getRoutes(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     path('api/routes/', getRoutes, name='routes'),
     path('api/projects/', include('project.urls')),
     path('api/tasks/', include('tasks.urls')),
