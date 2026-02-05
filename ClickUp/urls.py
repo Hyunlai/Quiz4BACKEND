@@ -11,5 +11,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/projects/', include('project.urls')),
     path('api/tasks/', include('tasks.urls')),
-    
+    path('api/', include('ClickUp.urls')),
 ]
