@@ -6,8 +6,8 @@ from .views import ProjectListView, ProjectDetailView
 from .views import ProjectCreateView
 
 urlpatterns = [
-    path('', views.ProjectListView, name='project-list'),
-    path('<int:pk>/', views.ProjectDetailView, name='project-detail'),
-    path('create/', views.ProjectCreateView, name='project-create'),
+    path('create/', ProjectCreateView, name='project-create'),
+    path('list/', ProjectListView, name='project-list'),
+    path('detail/<int:pk>/', ProjectDetailView, name='project-detail'),
 ]
 
