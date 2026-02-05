@@ -16,16 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.http import JsonResponse
-from django.urls import path
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+from django.urls import path, include
 
 def getRoutes(request):
     routes = [
         {'GET': '/api/routes/'},
-        {'GET': '/api/Task/'},
-        {'GET': '/api/Projects/'},
+        {'GET': '/api/projects/', 'description': 'List all projects'},
+        {'GET': '/api/projects/<id>/', 'description': 'Get project details'},
+        {'POST': '/api/projects/create/', 'description': 'Create a new project'},
+        {'POST': '/api/v1/projects/<id>/task/create/', 'description': 'Create a new task'},
+        {'GET': '/api/tasks/', 'description': 'List all tasks'},
+        {'GET': '/api/tasks/<id>/', 'description': 'Get task details'},
     ]
     return JsonResponse(routes, safe=False)
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/routes/', getRoutes, name='routes'),
+    path('api/projects/', include('project.urls')),
+    path('api/tasks/', include('tasks.urls')),
+]

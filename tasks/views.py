@@ -1,3 +1,70 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from datetime import date
+import json
+from .models import Task
+from project.models import Project
+from users.views import admin_or_manager_required
 
 # Create your views here.
+
+@require_http_methods(["POST"])
+@admin_or_manager_required
+@csrf_exempt
+def TaskCreateView(request):
+    """
+    Both Admin and Manager can access this endpoint.
+    Determine status based on start_date:
+    - If start_date == today: status = "IN PROGRESS"
+    - If start_date != today: status = "CREATED"
+    """
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    # Validate required fields
+    required_fields = ['project', 'task_name', 'task_description', 'hours_consumed', 
+                      'user_assigned', 'start_date', 'end_date']
+    for field in required_fields:
+        if field not in data:
+            return JsonResponse({'error': f'Missing field: {field}'}, status=400)
+    
+    # Check if project exists
+    try:
+        project = Project.objects.get(id=data['project'])
+    except Project.DoesNotExist:
+        return JsonResponse({'error': 'Project not found'}, status=404)
+    
+    # Determine status based on start_date
+    start_date = date.fromisoformat(data['start_date'])
+    today = date.today()
+    status = "IN PROGRESS" if start_date == today else "CREATED"
+    
+    try:
+        task = Task.objects.create(
+            project=project,
+            task_name=data['task_name'],
+            task_description=data['task_description'],
+            status=status,
+            hours_consumed=float(data['hours_consumed']),
+            user_assigned=data['user_assigned'],
+            start_date=start_date,
+            end_date=date.fromisoformat(data['end_date'])
+        )
+        
+        return JsonResponse({
+            'id': task.id,
+            'project': task.project.id,
+            'task_name': task.task_name,
+            'task_description': task.task_description,
+            'status': task.status,
+            'hours_consumed': task.hours_consumed,
+            'user_assigned': task.user_assigned,
+            'start_date': str(task.start_date),
+            'end_date': str(task.end_date),
+        }, status=201)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
