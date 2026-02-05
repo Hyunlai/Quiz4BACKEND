@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ClickUp.apps.ClickupConfig',
+    'project.apps.ProjectConfig',
+    'tasks.apps.TasksConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [

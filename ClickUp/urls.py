@@ -8,4 +8,5 @@ urlpatterns = [
     path('routes/', getRoutes, name='routes'),
     path('Task/', getTask, name='Task'),
     path('Projects/', include('ClickUp.urls')),
+    
 ]
