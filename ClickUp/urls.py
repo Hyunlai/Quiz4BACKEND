@@ -1,6 +1,11 @@
 from django.urls import path, include
-from .views import getRoutes, getTasks
+
+from backend.ClickUp import admin
+from .views import getRoutes, getTask
+
 urlpatterns = [
-    path('', getRoutes, name='routes'),
-    path('tasks/', getTasks, name='tasks'),
+    path('admin/', admin.site.urls),
+    path('routes/', getRoutes, name='routes'),
+    path('Task/', getTask, name='Task'),
+    path('Projects/', include('ClickUp.urls')),
 ]
