@@ -58,3 +58,40 @@ def TaskCreateView(request):
         }, status=201)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+def TaskListView(request):
+    tasks = Task.objects.all()
+    tasks_data = [
+        {
+            'id': task.id,
+            'project': task.project.id,
+            'task_name': task.task_name,
+            'task_description': task.task_description,
+            'status': task.status,
+            'hours_consumed': task.hours_consumed,
+            'user_assigned': task.user_assigned,
+            'start_date': str(task.start_date),
+            'end_date': str(task.end_date),
+        }
+        for task in tasks
+    ]
+    return JsonResponse(tasks_data, safe=False)
+
+def TaskDetailView(request, pk):
+    try:
+        task = Task.objects.get(pk=pk)
+    except Task.DoesNotExist:
+        return JsonResponse({'error': 'Task not found'}, status=404)
+    
+    task_data = {
+        'id': task.id,
+        'project': task.project.id,
+        'task_name': task.task_name,
+        'task_description': task.task_description,
+        'status': task.status,
+        'hours_consumed': task.hours_consumed,
+        'user_assigned': task.user_assigned,
+        'start_date': str(task.start_date),
+        'end_date': str(task.end_date),
+    }
+    return JsonResponse(task_data)

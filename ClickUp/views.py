@@ -9,6 +9,12 @@ def getRoutes(request):
         'POST /api/clickup/tasks/',
     ], safe=False)
 
-def getTasks(request):
-    tasks = tasks.get_all_tasks()
-    return JsonResponse(tasks, safe=False)
+def ClickUpTaskListView(request):
+    return JsonResponse({'message': 'List of ClickUp tasks'})
+
+def ClickUpTaskDetailView(request, task_id):
+    return JsonResponse({'message': f'Details of ClickUp task {task_id}'})
+
+def ClickUpTaskCreateView(request):
+    return JsonResponse({'message': 'Create a new ClickUp task'})
+
