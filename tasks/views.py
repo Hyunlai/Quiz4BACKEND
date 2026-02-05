@@ -14,31 +14,21 @@ from users.views import admin_or_manager_required
 @admin_or_manager_required
 @csrf_exempt
 def TaskCreateView(request):
-    """
-    Both Admin and Manager can access this endpoint.
-    Determine status based on start_date:
-    - If start_date == today: status = "IN PROGRESS"
-    - If start_date != today: status = "CREATED"
-    """
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     
-    # Validate required fields
-    required_fields = ['project', 'task_name', 'task_description', 'hours_consumed', 
-                      'user_assigned', 'start_date', 'end_date']
+    required_fields = ['project', 'task_name', 'task_description', 'hours_consumed', 'user_assigned', 'start_date', 'end_date']
     for field in required_fields:
         if field not in data:
             return JsonResponse({'error': f'Missing field: {field}'}, status=400)
-    
-    # Check if project exists
+
     try:
         project = Project.objects.get(id=data['project'])
     except Project.DoesNotExist:
         return JsonResponse({'error': 'Project not found'}, status=404)
     
-    # Determine status based on start_date
     start_date = date.fromisoformat(data['start_date'])
     today = date.today()
     status = "IN PROGRESS" if start_date == today else "CREATED"

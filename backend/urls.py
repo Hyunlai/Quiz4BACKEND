@@ -23,7 +23,6 @@ def getRoutes(request):
         {'GET': '/api/routes/'},
         {'GET': '/api/projects/', 'description': 'List all projects'},
         {'GET': '/api/projects/<id>/', 'description': 'Get project details'},
-        {'POST': '/api/projects/create/', 'description': 'Create a new project'},
         {'POST': '/api/v1/projects/<id>/task/create/', 'description': 'Create a new task'},
         {'GET': '/api/tasks/', 'description': 'List all tasks'},
         {'GET': '/api/tasks/<id>/', 'description': 'Get task details'},
